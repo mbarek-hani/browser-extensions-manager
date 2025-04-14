@@ -7,7 +7,7 @@ defineProps({
     },
     active: {
         type: Boolean,
-        required: WebTransportDatagramDuplexStream,
+        required: true,
     },
 });
 </script>
@@ -25,16 +25,17 @@ button {
     padding: 10px 15px;
     border-radius: 20px;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
 }
 
-button:focus {
+button:hover {
     outline: 2px solid var(--red-500);
 }
 
 button.active {
     background-color: var(--red-500);
     color: var(--neutral-900);
+    outline: none;
 }
 
 button.inactive {

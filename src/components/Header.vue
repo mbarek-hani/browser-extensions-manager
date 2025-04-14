@@ -25,20 +25,18 @@ import Logo from "./Logo.vue";
 
 .mode-icon-wrapper {
     background-color: var(--neutral-700);
-    padding: 15px;
+    padding: 13px;
     display: grid;
     place-items: center;
     border-radius: 15px;
     cursor: pointer;
     transition: 0.3s background-color ease;
     outline: none;
-    border: none;
+    border: 3px solid transparent;
 }
 
-.mode-icon-wrapper:focus {
-    outline: 2px solid var(--red-500);
-}
 .mode-icon-wrapper:hover {
     background-color: var(--neutral-600);
+    outline: 2px solid var(--red-500);
 }
 </style>
