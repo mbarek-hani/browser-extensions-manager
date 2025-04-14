@@ -37,7 +37,9 @@ defineProps(["logo", "name", "description", "isActive"]);
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    /* gap: 20px; */
+    height: 165px;
+    justify-content: space-between;
 }
 
 .top {

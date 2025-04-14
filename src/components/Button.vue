@@ -21,11 +21,11 @@ defineProps({
 <style scoped>
 button {
     outline: none;
-    border: none;
-    padding: 10px 15px;
+    padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
     border: 3px solid transparent;
+    font-size: 13px;
 }
 
 button:hover {
