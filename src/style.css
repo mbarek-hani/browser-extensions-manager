@@ -41,4 +41,5 @@ body {
     min-height: 100vh;
     background: var(--dark-gradient);
     font-family: var(--font-family);
+    padding-bottom: 30px;
 }

@@ -1,19 +1,25 @@
 <script setup>
 import Button from "./Button.vue";
+import ToggleButton from "./ToggleButton.vue";
 
-defineProps(["logo", "name", "description", "isActive"]);
+const props = defineProps(["logo", "name", "description", "isActive"]);
+const emit = defineEmits("changeState");
+
+function changeExtensionState() {
+    emit("changeState", props.name);
+}
 </script>
 
 <template>
     <div class="extension">
         <div class="top">
             <div class="left-side">
-                <img :src="logo" />
+                <img :src="props.logo" />
             </div>
             <div class="right-side">
-                <h3 class="title">{{ name }}</h3>
+                <h3 class="title">{{ props.name }}</h3>
                 <p class="decription">
-                    {{ description }}
+                    {{ props.description }}
                 </p>
             </div>
         </div>
@@ -24,7 +30,10 @@ defineProps(["logo", "name", "description", "isActive"]);
                 >
             </div>
             <div class="activate-btn-wrapper">
-                <Button :active="isActive">test</Button>
+                <ToggleButton
+                    :isChecked="props.isActive"
+                    :handleChange="changeExtensionState"
+                />
             </div>
         </div>
     </div>
@@ -37,7 +46,6 @@ defineProps(["logo", "name", "description", "isActive"]);
     padding: 20px;
     display: flex;
     flex-direction: column;
-    /* gap: 20px; */
     height: 165px;
     justify-content: space-between;
 }
@@ -64,6 +72,6 @@ defineProps(["logo", "name", "description", "isActive"]);
 
 .title {
     margin-bottom: 3px;
-    margin-top: -5px;
+    margin-top: -3px;
 }
 </style>

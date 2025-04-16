@@ -3,15 +3,36 @@ import Header from "./components/Header.vue";
 import Button from "./components/Button.vue";
 import Extension from "./components/Extension.vue";
 
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-import { extensions } from "./data";
-import Logo from "./components/Logo.vue";
+import { data } from "./data";
 
+// the state of the filter
+// we can filter extensions by all, active or inactive
 const state = ref("all"); // all || active || inactive
+
+const extensions = ref(data);
 
 function switchState(newState) {
     state.value = newState;
+}
+
+watch(state, (value, _) => {
+    if (value === "all") {
+        extensions.value = data;
+    } else if (value === "active") {
+        extensions.value = data.filter((ext) => ext.isActive === true);
+    } else {
+        extensions.value = data.filter((ext) => ext.isActive === false);
+    }
+});
+
+function toggleIsActive(extName) {
+    extensions.value = extensions.map((ext) => {
+        if (ext.name === extName) {
+            ext.isActive = !ext.isActive;
+        }
+    });
 }
 </script>
 
@@ -53,10 +74,16 @@ function switchState(newState) {
         <main class="extensions">
             <Extension
                 v-for="extension in extensions"
+                :key="extension.name"
                 :logo="extension.logo"
                 :name="extension.name"
                 :description="extension.description"
                 :isActive="extension.isActive"
+                @changeState="
+                    () => {
+                        toggleIsActive(extension.name);
+                    }
+                "
             />
         </main>
     </div>
