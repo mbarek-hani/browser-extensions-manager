@@ -3,35 +3,44 @@ import Header from "./components/Header.vue";
 import Button from "./components/Button.vue";
 import Extension from "./components/Extension.vue";
 
-import { ref, watch } from "vue";
+import { ref, shallowRef, computed } from "vue";
 
 import { data } from "./data";
 
 // the state of the filter
 // we can filter extensions by all, active or inactive
 const state = ref("all"); // all || active || inactive
-
-const extensions = ref(data);
+const extensions = shallowRef(data);
 
 function switchState(newState) {
     state.value = newState;
 }
 
-watch(state, (value, _) => {
-    if (value === "all") {
-        extensions.value = data;
-    } else if (value === "active") {
-        extensions.value = data.filter((ext) => ext.isActive === true);
+const filteredExtensions = computed(() => {
+    if (state.value === "all") {
+        return extensions.value;
+    } else if (state.value === "active") {
+        return extensions.value.filter((ext) => ext.isActive);
     } else {
-        extensions.value = data.filter((ext) => ext.isActive === false);
+        return extensions.value.filter((ext) => !ext.isActive);
     }
 });
 
 function toggleIsActive(extName) {
-    extensions.value = extensions.map((ext) => {
+    extensions.value = extensions.value.map((ext) => {
         if (ext.name === extName) {
             ext.isActive = !ext.isActive;
         }
+        return ext;
+    });
+}
+
+function deleteExt(extName) {
+    extensions.value = extensions.value.filter((ext) => {
+        if (ext.name === extName) {
+            return false;
+        }
+        return true;
     });
 }
 </script>
@@ -73,15 +82,20 @@ function toggleIsActive(extName) {
         </div>
         <main class="extensions">
             <Extension
-                v-for="extension in extensions"
+                v-for="extension in filteredExtensions"
                 :key="extension.name"
                 :logo="extension.logo"
                 :name="extension.name"
                 :description="extension.description"
                 :isActive="extension.isActive"
-                @changeState="
+                @change-state="
                     () => {
                         toggleIsActive(extension.name);
+                    }
+                "
+                @delete="
+                    () => {
+                        deleteExt(extension.name);
                     }
                 "
             />

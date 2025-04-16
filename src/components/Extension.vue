@@ -1,12 +1,25 @@
 <script setup>
+import { nextTick, ref } from "vue";
 import Button from "./Button.vue";
 import ToggleButton from "./ToggleButton.vue";
 
+const isActive = ref(false);
+
 const props = defineProps(["logo", "name", "description", "isActive"]);
-const emit = defineEmits("changeState");
+const emit = defineEmits("changeState", "delete");
 
 function changeExtensionState() {
-    emit("changeState", props.name);
+    emit("changeState");
+}
+
+async function handleClick() {
+    isActive.value = true;
+    await nextTick();
+    if (confirm(`are you sure you want to delete ${props.name} extension?`)) {
+        emit("delete");
+    } // else {
+    //     isActive.value = false;
+    // }
 }
 </script>
 
@@ -25,7 +38,7 @@ function changeExtensionState() {
         </div>
         <div class="bottom">
             <div class="remove-btn-wrapper">
-                <Button :handleClick="undefined" :active="undefined"
+                <Button :handleClick="handleClick" :active="isActive"
                     >Remove</Button
                 >
             </div>

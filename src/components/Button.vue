@@ -6,13 +6,12 @@ defineProps({
     },
     active: {
         type: Boolean,
-        required: true,
     },
 });
 </script>
 
 <template>
-    <button @click="handleClick" :class="`${active ? 'active' : 'inactive'}`">
+    <button @click="handleClick" :class="active ? 'active' : 'inactive'">
         <slot></slot>
     </button>
 </template>
